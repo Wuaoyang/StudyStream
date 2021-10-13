@@ -43,7 +43,7 @@ public class Stream {
 	// limit(long maxSize)  截断流，使其元素不超过给定数量。(Sql中的limit)
 	// skip(long n)   跳过元素，返回一个扔掉了前 n 个元素的流。若流中元素不足 n 个，则返回一个空流。与 limit(n) 互补（Sql中的where rownum > n）
 	// 2. 映射
-	// map(Function f)  接收一个函数作为参数，该函数会被应用到每个元素上，并将其映射成一个新的元素(抽出来一个key，value的对象集合)
+	// map(Function f)  接收一个函数作为参数，该函数会被应用到每个元素上，并将其映射成一个新的元素(抽出来一个处理完毕的的value集合)
 	// mapToDouble(ToDoubleFunction f)  接收一个函数作为参数，该函数会被应用到每个元素上，产生一个新的 DoubleStream。
 	// mapToInt(ToIntFunction f) 接收一个函数作为参数，该函数会被应用到每个元素上，产生一个新的 IntStream。
 	// mapToLong(ToLongFunction f)  接收一个函数作为参数，该函数会被应用到每个元素上，产生一个新的 LongStream。

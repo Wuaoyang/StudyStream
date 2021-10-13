@@ -39,9 +39,9 @@ public class Lamdba {
     // 枚举5: 当 Lambda 体只有一条语句时，return 与大括号可以省略
 	BinaryOperator<Long> b1 = (x, y) -> x + y;
     // 枚举6: 可以发现，上方其实都基于类型推断，入参都是没声明参数的，但是也可以显示声明。
-    BinaryOperator<Long> b3 = (Long x,Long y) -> {
-        System.out.println("Lambda需要两个参数，并且有返回值  ");
-        return x + y;
+	BinaryOperator<Long> b3 = (Long x, Long y) -> {
+		System.out.println("Lambda需要两个参数，并且有返回值  ");
+		return x + y;
     };
 
 
