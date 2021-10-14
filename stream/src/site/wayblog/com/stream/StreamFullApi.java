@@ -3,12 +3,8 @@ package site.wayblog.com.stream;
 import org.junit.Test;
 import site.wayblog.com.stream.entity.Employee;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.DoubleStream;
-import java.util.stream.IntStream;
-import java.util.stream.LongStream;
+import java.util.*;
+import java.util.stream.*;
 import java.util.stream.Stream;
 
 /**
@@ -108,25 +104,60 @@ public class StreamFullApi {
 		// ==> 注: 脱裤子放屁！啥都没操作 = list.size()，不过，这只是个demo ^_^...
 
 		// 判断整个stream是否满足某个条件
+		System.out.println("是否全部年龄大于10:" + list.stream().allMatch(o -> o.getAge() > 10));
+		// ==> 注: 很容易看懂
 
 		// 判断整个stream是否有满足某个条件的数据
+		System.out.println("是否存在年龄大于10:" + list.stream().anyMatch(o -> o.getAge() > 10));
+		// ==> 注: 同上
 
 		// 判断整个stream是否没有一条满足某个条件
+		System.out.println("是否不存在年龄大于10:" + list.stream().noneMatch(o -> o.getAge() > 10));
+		// ==> 注: 同上
 
 		// 拿出strema的第一个元素
+		System.out.println(list.stream().findFirst());
+		// ==> 注: 返回的是Optional，是一个防止空指针的东西，但在我看来没啥用...不深入讲
+		//     Optional对象取值就是直接 optional.get() 可以在get之前判空等
 
 		// 拿出stream的随机一个元素
+		System.out.println(list.stream().findAny());
+		// ==> 注: 返回的是Optional
 
 		// 将list中所有age进行累加
+		Optional<Integer> reduce = list.stream().map(Employee::getAge).reduce((x, y) -> x + y);
+		System.out.println(reduce.isPresent() ? reduce.get() : "");
 
 		// 取出list中最大age
+//		list.stream().max((x,y)->{x.getAge() - y.getAge()})
+		System.out.println(list.stream().max(Comparator.comparingInt(Employee::getAge)).get());
+		// ==> 注: 返回的是Optional，用的时候要如131行，这里比较随意。
 
 		// 取出list中最小age
+		System.out.println(list.stream().min(Comparator.comparingInt(Employee::getAge)).get());
+		// ==> 注: 同上
+
+		// 将list中name提取出来，拼成一串，不使用flatmap
+		System.out.println(list.stream().map(Employee::getName).reduce((x, y) -> x + "|" + y).get());
 
 		// 将list中name提取出来，组成List<String>
+		List<String> collect = list.stream().map(Employee::getName).collect(Collectors.toList());
+		Set<String> set = list.stream().map(Employee::getName).collect(Collectors.toSet());
+		Set<String> hashset = list.stream().map(Employee::getName).collect(Collectors.toCollection(HashSet::new));
+		// ==> 注: 这是一个非常有趣的操作，当需求是提取某个对象list某个属性，组成list的时候，这个能派上用场！
 
 		// 对list根据name分组，对salary进行合并，组成一个map<String name, Integer salarySum>
+		Map<String, List<Employee>> groupMap = list.stream().collect(Collectors.groupingBy(Employee::getName));
+		System.out.println(groupMap);
+		// ==> 注: 直觉告诉我，这在一些场合也很有用..
 
+		// 本来枚举的场景差不多了，但是如果有树级结构，分组内再分组呢？可以看到Collectors.groupingBy这个api里有多参数，应该能操作，试试？
+		// 先根据名称分组，再根据年龄分组
+		Map<String, Map<Integer, List<Employee>>> group2Map = list.stream().collect(Collectors.groupingBy(Employee::getName, Collectors.groupingBy(Employee::getAge)));
+		System.out.println(group2Map);
+		// ==> 注: 直觉告诉我，这属实有点小恶心，但应该也有妙用..demo保留把..
+
+		// 恭喜通关!!!
 	}
 	// ====================================== Private  ======================================
 
